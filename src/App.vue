@@ -1,23 +1,23 @@
 <template>
   <div id="app">
+    <h1>Dodaj nową notatkę</h1>
     <div>
-      <input type="text" placeholder="Tytuł notatki" v-model="newItem.title"><br>
-      <textarea rows="4" cols="50" placeholder="Napisz coś..." v-model="newItem.body"></textarea><br>
-      <button @click="addNewItem()">Zapisz</button>
+      <addNewItem :newItem="newItem" @addItem="addNewItem" />
     </div>
     <div>
-      <div v-for="note in notes" :key="note.id" >
-        <h2>{{note.title}}</h2>
-        <h4>{{note.body}}</h4>
-        <h5>{{note.date}}</h5>
-      </div>
+      <showItems :note="note" v-for="note in notes" :key="note.id" />
     </div>
   </div>
 </template>
 
 <script>
-
+import showItems from './components/showItems.vue';
+import addNewItem from './components/addNewItem.vue';
 export default {
+  components: {
+        showItems,
+        addNewItem
+    },
   name: 'App',
   data(){
     return {
@@ -29,14 +29,14 @@ export default {
     }
   },
   methods: {
-    addNewItem(){
+    addNewItem(title, body){
       var today = new Date();
       var dd = String(today.getDate()).padStart(2, '0');
       var mm = String(today.getMonth() + 1).padStart(2, '0'); 
       var yyyy = today.getFullYear();
 
       today = dd + '.' + mm + '.' + yyyy;
-      this.notes.push({id:Math.random(), title:this.newItem.title, body:this.newItem.body, date:today})
+      this.notes.push({id:Math.random(), title:title, body:body, date:today})
       this.newItem={title:'', body:''}
     }
 
