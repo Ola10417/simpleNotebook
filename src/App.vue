@@ -5,7 +5,7 @@
       <addNewItem :newItem="newItem" @addItem="addNewItem" />
     </div>
     <div>
-      <showItems :note="note" v-for="note in notes" :key="note.id" />
+      <showItems :note="note" v-for="note in notes" :key="note.id" @deleteItem="delItem" />
     </div>
   </div>
 </template>
@@ -34,11 +34,15 @@ export default {
       var dd = String(today.getDate()).padStart(2, '0');
       var mm = String(today.getMonth() + 1).padStart(2, '0'); 
       var yyyy = today.getFullYear();
-
       today = dd + '.' + mm + '.' + yyyy;
       this.notes.push({id:Math.random(), title:title, body:body, date:today})
       this.newItem={title:'', body:''}
-    }
+    },
+
+    delItem(note){
+      console.log(note);
+      this.notes.splice(this.notes.indexOf(note),1);
+    },
 
   }
   
